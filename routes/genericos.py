@@ -1,8 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from utils.utils import executar_operacao_db
 from typing import Type
-from pydantic import BaseModel
+from model.models import BaseModel
+from utils.funcao_execucao import executar_operacao_db
 
+# ==============================================================================================================
+# Rota GET
+# ==============================================================================================================
 def rota_get(app: FastAPI, txtAncor: str, nome_tabela: str):
     @app.get(txtAncor, status_code=200, responses={
         200: {"description": "Itens encontrados"},
@@ -17,7 +20,9 @@ def rota_get(app: FastAPI, txtAncor: str, nome_tabela: str):
         raise HTTPException(status_code=404, detail="Nenhum item encontrado")
     return listar_itens
 
-# Cria rota POST para inserir um novo item na tabela
+# ==============================================================================================================
+# Rota POST
+# ==============================================================================================================
 def rota_post(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: str):
     @app.post(txtAncor, status_code=201, responses={
         201: {"description": "Item criado com sucesso"},
@@ -26,8 +31,8 @@ def rota_post(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: 
     })
     def criar_item(item: model): # type: ignore
         try:
-            campos = ", ".join(item.dict().keys())  # Campos da tabela
-            valores = ", ".join(["%s"] * len(item.dict()))  # Placeholders para os valores
+            campos = ", ".join(item.dict().keys())
+            valores = ", ".join(["%s"] * len(item.dict()))
             sql = f"INSERT INTO {nome_tabela} ({campos}) VALUES ({valores})"
             executar_operacao_db(sql, tuple(item.dict().values()))
             return {"saída": f"{nome_tabela} cadastrado com sucesso"}
@@ -35,7 +40,9 @@ def rota_post(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: 
             raise HTTPException(status_code=500, detail=str(e))
     return criar_item
 
-# Cria rota PUT para atualizar um item existente na tabela
+# ==============================================================================================================
+# Rota UPDATE
+# ==============================================================================================================
 def rota_put(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: str, id_pk: str):
     @app.put(txtAncor, status_code=200, responses={
         200: {"description": "Item atualizado com sucesso"},
@@ -44,7 +51,7 @@ def rota_put(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: s
         500: {"description": "Erro interno do servidor"}
     })
     def atualizar_item(item_id: int, item: model): # type: ignore
-        updates = ", ".join([f"{key} = %s" for key in item.dict().keys()])  # Monta SET do UPDATE
+        updates = ", ".join([f"{key} = %s" for key in item.dict().keys()])
         sql = f"UPDATE {nome_tabela} SET {updates} WHERE {id_pk} = %s"
         resultado = executar_operacao_db(sql, tuple(list(item.dict().values()) + [item_id]))
         if resultado == 0:
@@ -52,7 +59,9 @@ def rota_put(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: s
         return {"saída": f"{nome_tabela} atualizado com sucesso"}
     return atualizar_item
 
-# Cria rota DELETE para remover um item da tabela
+# ==============================================================================================================
+# Rota DELETE
+# ==============================================================================================================
 def rota_delete(app: FastAPI, txtAncor: str, nome_tabela: str, id_pk: str):
     @app.delete(txtAncor, status_code=200, responses={
         200: {"description": "Item deletado com sucesso"},
