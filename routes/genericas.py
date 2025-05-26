@@ -4,7 +4,7 @@ from model.models import BaseModel
 from utils.funcao_execucao import executar_operacao_db
 
 # ==============================================================================================================
-# Rota GET
+# Rota GET ⬇
 # ==============================================================================================================
 def rota_get(app: FastAPI, txtAncor: str, nome_tabela: str):
     @app.get(txtAncor, status_code=200, responses={
@@ -21,7 +21,7 @@ def rota_get(app: FastAPI, txtAncor: str, nome_tabela: str):
     return listar_itens
 
 # ==============================================================================================================
-# Rota POST
+# Rota POST ⬇
 # ==============================================================================================================
 def rota_post(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: str):
     @app.post(txtAncor, status_code=201, responses={
@@ -41,7 +41,7 @@ def rota_post(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: 
     return criar_item
 
 # ==============================================================================================================
-# Rota UPDATE
+# Rota UPDATE ⬇
 # ==============================================================================================================
 def rota_put(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: str, id_pk: str):
     @app.put(txtAncor, status_code=200, responses={
@@ -60,7 +60,7 @@ def rota_put(app: FastAPI, txtAncor: str, model: Type[BaseModel], nome_tabela: s
     return atualizar_item
 
 # ==============================================================================================================
-# Rota DELETE
+# Rota DELETE ⬇
 # ==============================================================================================================
 def rota_delete(app: FastAPI, txtAncor: str, nome_tabela: str, id_pk: str):
     @app.delete(txtAncor, status_code=200, responses={

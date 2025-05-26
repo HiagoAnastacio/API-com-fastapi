@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Query
+from fastapi import APIRouter, HTTPException, status
 from model.db import Database
 from utils.funcao_execucao import executar_operacao_db
 
@@ -7,7 +7,7 @@ db = Database()
 
 # Rotas associativas
 # ==============================================================================================================
-# Rota GET 
+# Rota GET ⬇
 # ==============================================================================================================
 @router.get("/autor/{autor_id}/series/", status_code=status.HTTP_200_OK, responses={
     status.HTTP_200_OK: {"description": "Séries encontradas para o autor"},
@@ -28,7 +28,7 @@ def listar_serie_e_autor_relacionados():
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhuma série encontrada para associação.")
 
 # ==============================================================================================================
-# Rota POST
+# Rota POST ⬇
 # ==============================================================================================================
 @router.post("/autor/{autor_id}/series/{serie_id}", status_code=status.HTTP_201_CREATED, responses={
     status.HTTP_201_CREATED: {"description": "Associação entre autor e série criada com sucesso"},
@@ -48,7 +48,7 @@ def associar_autor_serie(autor_id: int, serie_id: int):
     return {"saída": f"Associação entre autor ID {autor_id} e série ID {serie_id} criada com sucesso!"}
 
 # ==============================================================================================================
-# Rota UPDATE
+# Rota UPDATE ⬇
 # ==============================================================================================================
 @router.put("/autor/{autor_id}/series/{serie_id}", status_code=status.HTTP_201_CREATED, responses={
     status.HTTP_201_CREATED: {"description": "Associação entre autor e série criada com sucesso"},
@@ -67,7 +67,7 @@ def atualizar_associar_autor_serie(autor_serie_id: int, novo_autor_id: int, novo
     return {"saída": f"Associação {autor_serie_id} atualizada para autor ID {novo_autor_id} e série ID {novo_serie_id} com sucesso!"}
 
 # ==============================================================================================================
-# Rota DELETE
+# Rota DELETE ⬇
 # ==============================================================================================================
 @router.delete("/autor/{autor_id}/series/{serie_id}", status_code=status.HTTP_200_OK, responses={
     status.HTTP_200_OK: {"description": "Associação entre autor e série removida com sucesso"},
