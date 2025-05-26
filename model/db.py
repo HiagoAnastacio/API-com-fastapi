@@ -1,4 +1,4 @@
-from typing import Any, Optional, Tuple, Union, List
+from typing import Any, Optional, Tuple, List
 import mysql.connector as mc #Biblioteca do conector do MySQL
 from mysql.connector import Error, MySQLConnection #Importando a classe Error para tratar as mensagens de erro do código
 from dotenv import load_dotenv #Importando a função load_dotenv
@@ -12,7 +12,7 @@ class Database:
         self.password: str = getenv('DB_PSWD')
         self.database: str = getenv('DB_NAME')
         self.connection: Optional[MySQLConnection] = None #Inicialização da conexão
-        self.cursor: Union[List[dict], None] = None #Inicialização do cursor
+        self.cursor: Optional[List[dict]] = None #Inicialização do cursor
  
     def conectar(self) -> None:
         """Estabelece uma conexão com o banco de dados."""
@@ -39,7 +39,7 @@ class Database:
             self.connection.close()
         print("Conexão com o banco de dados encerrada com sucesso;")
    
-    def executar_comando(self, sql: str, params: Optional[Tuple[Any, ...]] = None) -> Optional[Union[List[dict], Any]]:
+    def executar_comando(self, sql: str, params: Optional[Tuple[Any, ...]] = None) -> Optional[Optional[List[dict]]]:
         """
         Executa um comando no banco de dados. Pode ser usado para consultas (SELECT) ou modificações (INSERT, UPDATE, DELETE).
         sql: Comando SQL a ser executado.

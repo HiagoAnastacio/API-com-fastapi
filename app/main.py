@@ -28,7 +28,7 @@ modelos_por_tabela = {
     "serie": Serie,
     "ator": Ator,
     "motivo_assistir": Motivo,
-    "avaliacao": Avaliacao,
+    "avaliacao_serie": Avaliacao,
     "categoria": Categoria,
 }
 
