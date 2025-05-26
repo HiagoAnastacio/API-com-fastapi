@@ -21,3 +21,7 @@ class Avaliacao(BaseModel):
 
 class Categoria(BaseModel):
     nome: str
+
+class Ator_serie(BaseModel):
+    id_serie: int
+    id_ator: int
